@@ -1,18 +1,11 @@
 import { jockeyApi } from "../../../entities/jockey/index.js";
-import { Button, Modal, Spinner, Alert } from "../../../shared/ui/index.js";
+import { Spinner, Alert } from "../../../shared/ui/index.js";
 import { createElement, clearElement } from "../../../shared/lib/utils.js";
-import { addJockeyForm } from "../../../features/AddJockey/index.js";
-import { eventBus } from "../../../shared/lib/eventBus.js";
 
 export async function JockeysPage() {
   const container = createElement("div", "page jockeys-page");
   const header = createElement("div", "page-header");
   header.innerHTML = "<h1>Жокеи</h1>";
-  const addBtn = Button("+ Добавить жокея", {
-    className: "btn-primary",
-    onClick: () => showAddModal(),
-  });
-  header.appendChild(addBtn);
   container.appendChild(header);
 
   const contentDiv = createElement("div", "page-content");
@@ -59,21 +52,7 @@ export async function JockeysPage() {
     }
   }
 
-  function showAddModal() {
-    const form = addJockeyForm();
-    const modal = Modal("Добавить нового жокея", form);
-    const unsubscribe = eventBus.on("jockey:created", () => {
-      modal.hide();
-      loadJockeys();
-      unsubscribe();
-    });
-    modal.show();
-  }
-
   await loadJockeys();
-  eventBus.on("jockey:created", () => {
-    loadJockeys();
-  });
 
   return container;
 }
