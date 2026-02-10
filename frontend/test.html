@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RaceTracker - Тест</title>
+    <link rel="stylesheet" href="src/app/styles/index.css">
+</head>
+<body>
+    <div id="app"></div>
+
+    <script>
+        console.log('📝 Начало тестирования...');
+
+        // Простой тест без модулей
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ DOM готов');
+
+            // Проверяем CSS
+            const styles = window.getComputedStyle(document.body);
+            console.log('📊 Стили загружены:', styles.fontFamily);
+
+            // Создаем простой контент
+            const app = document.getElementById('app');
+            app.innerHTML = `
+                <div style="padding: 20px; text-align: center;">
+                    <h1>🏇 RaceTracker</h1>
+                    <p>Приложение загружается...</p>
+                    <p style="color: green;">✅ HTML и CSS работают!</p>
+                </div>
+            `;
+
+            console.log('✅ Контент добавлен');
+        });
+    </script>
+</body>
+</html>

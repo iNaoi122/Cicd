@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Простой тест модулей</title>
+</head>
+<body>
+    <h1>Тест загрузки модулей</h1>
+    <div id="result"></div>
+    <pre id="logs"></pre>
+
+    <script type="module">
+        const logs = [];
+        function log(msg) {
+            logs.push(msg);
+            console.log(msg);
+            document.getElementById('logs').textContent = logs.join('\n');
+        }
+
+        log('1. Начало теста');
+
+        try {
+            log('2. Импортируем app.js...');
+            const module = await import('./src/app/app.js');
+            log('3. ✅ app.js загружен: ' + Object.keys(module).join(', '));
+
+            document.getElementById('result').innerHTML = '<h2 style="color: green;">✅ Модули загружаются!</h2>';
+        } catch (err) {
+            log('4. ❌ Ошибка: ' + err.message);
+            log('5. ❌ Stack: ' + err.stack);
+            document.getElementById('result').innerHTML = '<h2 style="color: red;">❌ Ошибка загрузки модулей</h2><p>' + err.message + '</p>';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "racetracker-frontend",
+  "version": "1.0.0",
+  "description": "Frontend для управления информацией о скачках",
+  "type": "module",
+  "scripts": {
+    "dev": "python3 -m http.server 5173",
+    "build": "echo 'No build required for vanilla JS'",
+    "preview": "python3 -m http.server 8080"
+  }
+}
