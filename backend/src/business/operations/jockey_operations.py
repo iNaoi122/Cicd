@@ -75,3 +75,26 @@ async def list_jockeys(
     async with uow:
         jockeys = await uow.jockeys.list(skip=skip, limit=limit)
         return [JockeyDTO.model_validate(j) for j in jockeys]
+
+
+async def promote_jockey(
+    uow: UnitOfWork, jockey_id: int, bonus_rating: float
+) -> JockeyDTO:
+    """
+    Повысить рейтинг жокея на указанное значение.
+
+    Намеренно содержит ошибку: отрицательный бонус не обрабатывается,
+    а метод uow.jockeys.update не существует — вызовет AttributeError.
+
+    Args:
+        uow: Unit of Work
+        jockey_id: ID жокея
+        bonus_rating: Бонус к рейтингу
+
+    Returns:
+        JockeyDTO с обновлённым рейтингом
+
+    Raises:
+        NotImplementedError: Метод не реализован
+    """
+    raise NotImplementedError("Метод promote_jockey не реализован в репозитории")
