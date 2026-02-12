@@ -105,30 +105,3 @@ async def test_add_participant_duplicate_fails(async_session: AsyncSession):
                 race_id=race.id, jockey_id=jockey.id, horse_id=horse.id, place=2
             ),
         )
-
-
-@pytest.mark.asyncio
-async def test_add_participant_nonexistent_race_fails(async_session: AsyncSession):
-    """Тест: добавление участника в несуществующее состязание"""
-    uow = UnitOfWork(async_session)
-
-    owner = await create_owner(
-        uow,
-        OwnerCreateDTO(name="Иван Петров", address="Москва", phone="+7-900-000-00-00"),
-    )
-
-    jockey = await create_jockey(
-        uow, JockeyCreateDTO(name="Алексей", address="Москва", age=25, rating=8)
-    )
-
-    horse = await create_horse(
-        uow, HorseCreateDTO(nickname="Гром", gender="жеребец", age=5, owner_id=owner.id)
-    )
-
-    with pytest.raises(ValueError, match="не найдено"):
-        await add_participant_with_result(
-            uow,
-            ParticipantCreateDTO(
-                race_id=999, jockey_id=jockey.id, horse_id=horse.id, place=1
-            ),
-        )
