@@ -1,17 +1,22 @@
-from sqlalchemy import Column, Integer, String, Date, Time, ForeignKey, Enum, Index
-from sqlalchemy.orm import declarative_base, relationship
 import enum
+
+from sqlalchemy import Column, Date, Enum, ForeignKey, Index, Integer, String, Time
+from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
 
+
 class GenderEnum(enum.Enum):
     """Пол лошади"""
+
     STALLION = "жеребец"
     MARE = "кобыла"
     GELDING = "мерин"
 
+
 class Race(Base):
     """Таблица состязаний"""
+
     __tablename__ = "races"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -21,10 +26,14 @@ class Race(Base):
     name = Column(String(200), nullable=True)
 
     # Relationships
-    participants = relationship("RaceParticipant", back_populates="race", lazy="selectin")
+    participants = relationship(
+        "RaceParticipant", back_populates="race", lazy="selectin"
+    )
+
 
 class Jockey(Base):
     """Таблица жокеев"""
+
     __tablename__ = "jockeys"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -36,8 +45,10 @@ class Jockey(Base):
     # Relationships
     participations = relationship("RaceParticipant", back_populates="jockey")
 
+
 class Owner(Base):
     """Таблица владельцев"""
+
     __tablename__ = "owners"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -48,8 +59,10 @@ class Owner(Base):
     # Relationships
     horses = relationship("Horse", back_populates="owner")
 
+
 class Horse(Base):
     """Таблица лошадей"""
+
     __tablename__ = "horses"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -62,11 +75,23 @@ class Horse(Base):
     owner = relationship("Owner", back_populates="horses")
     participations = relationship("RaceParticipant", back_populates="horse")
 
+
+class Weather(Base):
+    """Таблица погоды"""
+
+    __tablename__ = "weather"
+
+    id = Column(Integer, primary_key=True, index=True)
+    date = Column(Date, nullable=False)
+    time = Column(Time, nullable=False)
+
+
 class RaceParticipant(Base):
     """
     Таблица участия в состязаниях
     Связывает состязание с парой жокей-лошадь и хранит результаты
     """
+
     __tablename__ = "race_participants"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -83,7 +108,7 @@ class RaceParticipant(Base):
 
     # Индексы для быстрого поиска
     __table_args__ = (
-        Index('idx_race_place', 'race_id', 'place'),
-        Index('idx_jockey_races', 'jockey_id'),
-        Index('idx_horse_races', 'horse_id'),
+        Index("idx_race_place", "race_id", "place"),
+        Index("idx_jockey_races", "jockey_id"),
+        Index("idx_horse_races", "horse_id"),
     )
